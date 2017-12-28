@@ -11,9 +11,17 @@ import UIKit
 
 // MARK: - Fileprivate Properties
 
-fileprivate let screenWidth: CGFloat = UIScreen.main.bounds.width
-fileprivate let screenHeight: CGFloat = UIScreen.main.bounds.width
-fileprivate let standardBoxHeight: CGFloat = 80
+let screenWidth: CGFloat = UIScreen.main.bounds.width
+let screenHeight: CGFloat = UIScreen.main.bounds.width
+
+let mediumTextHeight: CGFloat = {
+   let lbl = UILabel()
+    lbl.text = "STRING"
+    lbl.font = UIFont.custom(style: .bold, ofSize: .medium)
+    lbl.sizeToFit()
+    print("BAM: height was /(lbl.frame.height)")
+    return lbl.frame.height
+}()
 
 // MARK: - Globals
 

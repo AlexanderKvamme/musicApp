@@ -25,6 +25,7 @@ class SongPickerController: UIViewController {
         field.attributedPlaceholder = NSAttributedString(string: "ALL")
         field.textAlignment = .center
         field.autocapitalizationType = .allCharacters
+        field.clipsToBounds = true
         return field
     }()
     
@@ -32,7 +33,8 @@ class SongPickerController: UIViewController {
         let tv = UITableView()
         tv.translatesAutoresizingMaskIntoConstraints = false
         tv.register(SongCell.self, forCellReuseIdentifier: "SongCell")
-        tv.estimatedRowHeight = 500
+        tv.estimatedRowHeight = SongCell.cellheight
+        tv.isMultipleTouchEnabled = true
         return tv
     }()
     
@@ -67,6 +69,7 @@ class SongPickerController: UIViewController {
         
         // Auto layout
         NSLayoutConstraint.activate([
+            
             // Input Filed
             inputField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             inputField.topAnchor.constraint(equalTo: view.topAnchor),
@@ -171,12 +174,8 @@ extension SongPickerController: UITableViewDelegate {
         }
     }
     
-//    func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
-//        return true
-//    }
-    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return CGFloat(60)
+        return SongCell.cellheight
     }
 }
 
@@ -187,12 +186,10 @@ extension SongPickerController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         let cell = tableView.dequeueReusableCell(withIdentifier: "SongCell", for: indexPath) as! SongCell
-        cell.contentView.isUserInteractionEnabled = false
         if let mediaItem = currentMediaItemsCollection?.items[indexPath.row] {
             cell.setup(with: mediaItem)
         }
-        cell.clipsToBounds = true
-        cell.isMultipleTouchEnabled = true
+
         return cell
     }
     

@@ -14,8 +14,10 @@ class SongCell: UITableViewCell {
     
     // MARK: - Properties
     
-    static let iconHeight: CGFloat = 30 // plus button
     static let cellheight: CGFloat = 60
+    static let labelWidth: CGFloat = screenWidth - 2*cellheight
+    static let nextItemImageInsets: CGFloat = 5
+    static let plusButtonImageInsets: CGFloat = 20
     static let plusImg: UIImage = UIImage.plusSymbol.withRenderingMode(.alwaysTemplate)
     static let nextItemImage: UIImage = UIImage.nextItemSymbol.withRenderingMode(.alwaysTemplate)
     
@@ -43,18 +45,27 @@ class SongCell: UITableViewCell {
     let plusButton: UIButton = {
         let v = UIButton()
         v.setImage(plusImg, for: .normal)
+        v.imageEdgeInsets = UIEdgeInsets(top: plusButtonImageInsets,
+                     left: plusButtonImageInsets,
+                     bottom: plusButtonImageInsets,
+                     right: plusButtonImageInsets)
         v.tintColor = .dark
         v.translatesAutoresizingMaskIntoConstraints = false
         v.addTarget(self, action: #selector(plusButtonHandler), for: .touchUpInside)
+        // adding targets here did not work
         return v
     }()
     
     let nextItemButton: UIButton = {
         let v = UIButton()
         v.setImage(nextItemImage, for: .normal)
+        v.imageEdgeInsets = UIEdgeInsets(top: nextItemImageInsets,
+                                         left: nextItemImageInsets,
+                                         bottom: nextItemImageInsets,
+                                         right: nextItemImageInsets)
         v.tintColor = .dark
         v.translatesAutoresizingMaskIntoConstraints = false
-        v.addTarget(self, action: #selector(nextItemHandler), for: .touchUpInside)
+        // adding targets here did not work
         return v
     }()
     
@@ -67,6 +78,9 @@ class SongCell: UITableViewCell {
         bottomLabel.text = "botText"
         selectionStyle = .none
         backgroundColor = .light // BG of cell
+
+        plusButton.addTarget(self, action: #selector(plusButtonHandler), for: .touchUpInside)
+        nextItemButton.addTarget(self, action: #selector(nextItemHandler), for: .touchUpInside)
         
         addSubviewsAndConstraints()
     }
@@ -91,45 +105,46 @@ class SongCell: UITableViewCell {
         contentView.addSubview(plusButton)
         contentView.addSubview(nextItemButton)
         
-        contentView.backgroundColor = .red
-        contentView.isUserInteractionEnabled = false
-        
         NSLayoutConstraint.activate([
+            
             // Top label
             topLabel.widthAnchor.constraint(equalToConstant: 200),
-            topLabel.heightAnchor.constraint(equalToConstant: SongCell.iconHeight),
-            topLabel.topAnchor.constraint(equalTo: topAnchor),
+            topLabel.heightAnchor.constraint(equalToConstant: mediumTextHeight),
+            topLabel.bottomAnchor.constraint(equalTo: contentView.centerYAnchor),
             topLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-            
+
             // Bottom label
             bottomLabel.widthAnchor.constraint(equalToConstant: 200),
-            bottomLabel.heightAnchor.constraint(equalToConstant: SongCell.iconHeight),
-            bottomLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
+            bottomLabel.heightAnchor.constraint(equalToConstant: mediumTextHeight),
+            bottomLabel.topAnchor.constraint(equalTo: contentView.centerYAnchor),
             bottomLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
         
             // "+" button
-            plusButton.widthAnchor.constraint(equalToConstant: SongCell.iconHeight-8),
-            plusButton.heightAnchor.constraint(equalToConstant: SongCell.iconHeight-8),
+            plusButton.widthAnchor.constraint(equalToConstant: SongCell.cellheight),
+            plusButton.heightAnchor.constraint(equalToConstant: SongCell.cellheight),
             plusButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            plusButton.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -12),
+            plusButton.centerXAnchor.constraint(equalTo: contentView.rightAnchor, constant: -SongCell.cellheight/2),
         
             // Next item button
-            nextItemButton.widthAnchor.constraint(equalToConstant: SongCell.iconHeight-8),
-            nextItemButton.heightAnchor.constraint(equalToConstant: SongCell.iconHeight-8),
+            nextItemButton.widthAnchor.constraint(equalToConstant: SongCell.cellheight),
+            nextItemButton.heightAnchor.constraint(equalToConstant: SongCell.cellheight),
             nextItemButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            nextItemButton.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 12),
+            nextItemButton.centerXAnchor.constraint(equalTo: contentView.leftAnchor, constant: SongCell.cellheight/2+2),
             ])
         
         // Bring to front
         contentView.bringSubview(toFront: nextItemButton)
         contentView.bringSubview(toFront: plusButton)
-        plusButton.clipsToBounds = true
+        
+        // Test colors
+//        topLabel.backgroundColor = .yellow
+//        bottomLabel.backgroundColor = .green
+//        contentView.backgroundColor = .red
     }
     
     public func setup(with mediaItem: MPMediaItem) {
         topLabel.text = mediaItem.artist
         bottomLabel.text = mediaItem.title?.uppercased()
-        bottomLabel.backgroundColor = .yellow
     }
     
     @objc private func plusButtonHandler() {

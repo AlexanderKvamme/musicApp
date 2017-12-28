@@ -26,4 +26,3 @@ struct AlbumInfo {
     var songs: [SongInfo]
 }
 
-// MARK: Methods

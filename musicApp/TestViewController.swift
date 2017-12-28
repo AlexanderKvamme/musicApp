@@ -101,10 +101,10 @@ class TestViewController: UIViewController {
 //            bottomLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
 //
 //            // "+" button
-            plusButton.widthAnchor.constraint(equalToConstant: SongCell.iconHeight-8),
-            plusButton.heightAnchor.constraint(equalToConstant: SongCell.iconHeight-8),
-            plusButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            plusButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -12),
+//            plusButton.widthAnchor.constraint(equalToConstant: SongCell.iconHeight-8),
+//            plusButton.heightAnchor.constraint(equalToConstant: SongCell.iconHeight-8),
+//            plusButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+//            plusButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -12),
 //
 //            // Next item button
 //            nextItemButton.widthAnchor.constraint(equalToConstant: SongCell.iconHeight-8),
