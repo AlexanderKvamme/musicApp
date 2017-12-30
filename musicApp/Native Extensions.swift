@@ -8,7 +8,7 @@
 
 import Foundation
 import UIKit
-
+import MediaPlayer
 
 // MARK: Images
 
@@ -20,6 +20,14 @@ extension UIImage {
     
     static var nextItemSymbol: UIImage {
         return UIImage(named: "nextItemSymbol")!
+    }
+}
+
+extension MPMediaItemCollection {
+    func printItems() {
+        for item in items {
+            Swift.print(" - PRINTING: ", item.title!)
+        }
     }
 }
 

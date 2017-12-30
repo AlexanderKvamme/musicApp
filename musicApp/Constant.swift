@@ -19,7 +19,6 @@ let mediumTextHeight: CGFloat = {
     lbl.text = "STRING"
     lbl.font = UIFont.custom(style: .bold, ofSize: .medium)
     lbl.sizeToFit()
-    print("BAM: height was /(lbl.frame.height)")
     return lbl.frame.height
 }()
 

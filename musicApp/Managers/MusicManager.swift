@@ -12,22 +12,92 @@ import MediaPlayer
 class MusicManager {
     
     // MARK: - Properties
-    
-    let mediaPlayer: MPMusicPlayerApplicationController = {
-        let myMediaPlayer = MPMusicPlayerApplicationController()
-        return myMediaPlayer
+    var currentCollection: MPMediaItemCollection?
+    let mediaPlayer: MPMusicPlayerController =  {
+        let mediaPlayer = MPMusicPlayerController.systemMusicPlayer
+            //MPMusicPlayerController.systemMusicPlayer
+        mediaPlayer.shuffleMode = .off
+        mediaPlayer.repeatMode = .none
+        return mediaPlayer
     }()
     
     // MARK: - Methods
     
     func playItem(_ item: MPMediaItem) {
-        let collection = MPMediaItemCollection(items: [item])
-        self.mediaPlayer.setQueue(with: collection)
-        self.mediaPlayer.play()
+        currentCollection = MPMediaItemCollection(items: [item])
+        mediaPlayer.setQueue(with: currentCollection!)
+        mediaPlayer.play()
     }
     
     func playCollection(_ collection: MPMediaItemCollection) {
-        self.mediaPlayer.setQueue(with: collection)
-        self.mediaPlayer.play()
+        // play all
+        currentCollection = collection
+        mediaPlayer.setQueue(with: collection)
+        mediaPlayer.play()
+    }
+    
+    func addToQueue(_ item: MPMediaItem) {
+        print("*ADD TO QUEUE*")
+        if let playlistCollection = currentCollection {
+            print("CURRENT PLAYLIST BEFORE ADDING")
+            playlistCollection.printItems()
+            
+            if let _ = mediaPlayer.nowPlayingItem {
+                // If song is playing, add to after that song
+                var newItems: [MPMediaItem] = []
+                newItems.append(contentsOf: playlistCollection.items)
+                newItems.append(item)
+                
+                let newCollection = MPMediaItemCollection(items: newItems)
+                currentCollection = newCollection
+                mediaPlayer.setQueue(with: newCollection)
+                mediaPlayer.play()
+                print("END")
+            } else {
+                // If no song is playing just play it
+                fatalError("ERROR - had no 'now playing', what happens?")
+            }
+        } else {
+            // No active playlist. make new
+            if let npi = mediaPlayer.nowPlayingItem { // Includes a paused one
+                let collection = MPMediaItemCollection(items: [npi, item])
+                currentCollection = collection
+                mediaPlayer.setQueue(with: collection)
+                mediaPlayer.play()
+            } else {
+                // Make completelty new playlist
+                let collection = MPMediaItemCollection(items: [item])
+                currentCollection = collection
+                mediaPlayer.setQueue(with: collection)
+                mediaPlayer.play()
+            }
+        }
+    }
+    
+    func addAsNext(_ item: MPMediaItem) {
+        
+        // If no item is currenty playing, just play the new item
+        guard let nowPlaying = mediaPlayer.nowPlayingItem else {
+            playItem(item)
+            return
+        }
+        
+        // If theres no currentCollection of item playing, just play the new item
+        guard let currentCollection = currentCollection else {
+            playItem(item)
+            return
+        }
+        
+        // Make ﬁist of items and inject
+        var items = currentCollection.items
+        
+        guard let indexOfCurrentSong = currentCollection.items.index(of: nowPlaying) else {
+            fatalError("song is in queue but has no index")
+        }
+        
+        items.insert(item, at: indexOfCurrentSong + 1)
+        mediaPlayer.setQueue(with: MPMediaItemCollection(items: items))
+        mediaPlayer.play()
     }
 }
+

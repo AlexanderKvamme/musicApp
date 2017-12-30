@@ -21,6 +21,11 @@ class SongCell: UITableViewCell {
     static let plusImg: UIImage = UIImage.plusSymbol.withRenderingMode(.alwaysTemplate)
     static let nextItemImage: UIImage = UIImage.nextItemSymbol.withRenderingMode(.alwaysTemplate)
     
+    var cellsMediaItem: MPMediaItem!
+    
+    weak var musicManager: MusicManager?
+    
+    // Computed
     let topLabel: UILabel = {
         let v = UILabel()
         v.textAlignment = .center
@@ -51,7 +56,6 @@ class SongCell: UITableViewCell {
                      right: plusButtonImageInsets)
         v.tintColor = .dark
         v.translatesAutoresizingMaskIntoConstraints = false
-        v.addTarget(self, action: #selector(plusButtonHandler), for: .touchUpInside)
         // adding targets here did not work
         return v
     }()
@@ -79,8 +83,9 @@ class SongCell: UITableViewCell {
         selectionStyle = .none
         backgroundColor = .light // BG of cell
 
-        plusButton.addTarget(self, action: #selector(plusButtonHandler), for: .touchUpInside)
-        nextItemButton.addTarget(self, action: #selector(nextItemHandler), for: .touchUpInside)
+        // Add Targets
+        plusButton.addTarget(self, action: #selector(addToQueue), for: .touchUpInside)
+        nextItemButton.addTarget(self, action: #selector(addNextInQueue), for: .touchUpInside)
         
         addSubviewsAndConstraints()
     }
@@ -94,6 +99,8 @@ class SongCell: UITableViewCell {
         
         topLabel.text = item.artist ?? "No artist name"
         bottomLabel.text = (item.title ?? "No title").uppercased()
+        
+        self.cellsMediaItem = item
     }
     
     // MARK: - Methods
@@ -142,16 +149,27 @@ class SongCell: UITableViewCell {
 //        contentView.backgroundColor = .red
     }
     
-    public func setup(with mediaItem: MPMediaItem) {
+    public func setup(with mediaItem: MPMediaItem, and musicManager: MusicManager) {
         topLabel.text = mediaItem.artist
         bottomLabel.text = mediaItem.title?.uppercased()
+        self.musicManager = musicManager
+        self.cellsMediaItem = mediaItem
     }
     
-    @objc private func plusButtonHandler() {
-        print("would add next")
+    @objc private func addToQueue() {
+        guard let musicManager = musicManager else {
+            fatalError("No musicManager avaiable in cell")
+        }
+        
+        musicManager.addToQueue(cellsMediaItem)
     }
     
-    @objc private func nextItemHandler() {
-        print("nextItemHandler")
+    @objc private func addNextInQueue() {
+        guard let musicManager = musicManager else {
+            fatalError("No musicManager available in cell")
+        }
+        print("gonna add as next")
+        musicManager.addAsNext(cellsMediaItem)
     }
 }
+

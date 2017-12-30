@@ -113,7 +113,6 @@ class SongPickerController: UIViewController {
     }
     
     func get(songNameContaining str: String) -> [MPMediaItem]? {
-        
         let songNameFilter = MPMediaPropertyPredicate(value: str, forProperty: MPMediaItemPropertyTitle, comparisonType: MPMediaPredicateComparison.contains)
         //let typeFilter = MPMediaPropertyPredicate(value: "music", forProperty: MPMediaItemPropertyMediaType)
         let myQuery = MPMediaQuery(filterPredicates: [songNameFilter])
@@ -135,17 +134,8 @@ extension SongPickerController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let text = textField.text else { return true }
         
-        // Testprint and add to CurrentMediaItems
         if let songs = get(onlySongNameContaining: "\(text)\(string)") {
-            var str = "["
-            for song in songs {
-                str.append(" - \(song.title!),\n")
-            }
-            str.append("]")
             currentMediaItemsCollection = MPMediaItemCollection(items: songs)
-            print("found \(songs.count) songs")
-            print("String: ", str)
-            
         }
         
         tableView.reloadData()
@@ -155,9 +145,9 @@ extension SongPickerController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if let coll = currentMediaItemsCollection {
+            // Play all songs that appeared in search
             musicManager.playCollection(coll)
         }
-        
         return true
     }
 }
@@ -167,10 +157,8 @@ extension SongPickerController: UITextFieldDelegate {
 extension SongPickerController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("didselect row at \(indexPath)")
         if let item = currentMediaItemsCollection?.items[indexPath.row] {
             self.musicManager.playItem(item)
-            print("representing item: ", item.title ?? "NO SONG")
         }
     }
     
@@ -187,20 +175,18 @@ extension SongPickerController: UITableViewDataSource {
 
         let cell = tableView.dequeueReusableCell(withIdentifier: "SongCell", for: indexPath) as! SongCell
         if let mediaItem = currentMediaItemsCollection?.items[indexPath.row] {
-            cell.setup(with: mediaItem)
+            cell.setup(with: mediaItem, and: musicManager)
         }
 
         return cell
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        //return 1
-        print("calculating mediaitems: ", currentMediaItemsCollection?.count ?? 0)
         return currentMediaItemsCollection?.count ?? 0
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-    
 }
+
