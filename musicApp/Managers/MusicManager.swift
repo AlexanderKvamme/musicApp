@@ -60,6 +60,7 @@ class MusicManager {
         } else {
             // No active playlist. make new
             if let npi = mediaPlayer.nowPlayingItem { // Includes a paused one
+                
                 let collection = MPMediaItemCollection(items: [npi, item])
                 currentCollection = collection
                 mediaPlayer.setQueue(with: collection)
