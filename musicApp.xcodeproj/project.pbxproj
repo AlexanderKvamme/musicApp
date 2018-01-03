@@ -21,6 +21,7 @@
 		DD1D7B821FF4362300BD134B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DD1D7B811FF4362300BD134B /* Main.storyboard */; };
 		DD5483DC1FEFB171006D0A48 /* MusicRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5483DB1FEFB171006D0A48 /* MusicRepository.swift */; };
 		DD5483DF1FEFF1B9006D0A48 /* SongCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5483DE1FEFF1B9006D0A48 /* SongCell.swift */; };
+		DD7BB22B1FFD18C80074F87E /* AvoidKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7BB22A1FFD18C80074F87E /* AvoidKeyboard.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +62,7 @@
 		DD1D7B811FF4362300BD134B /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		DD5483DB1FEFB171006D0A48 /* MusicRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicRepository.swift; sourceTree = "<group>"; };
 		DD5483DE1FEFF1B9006D0A48 /* SongCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongCell.swift; sourceTree = "<group>"; };
+		DD7BB22A1FFD18C80074F87E /* AvoidKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvoidKeyboard.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +119,7 @@
 				DD1D7B7B1FF388A500BD134B /* Constant.swift */,
 				DD1D7B7D1FF3EB9400BD134B /* Native Extensions.swift */,
 				DD1D7B7F1FF4306300BD134B /* TestViewController.swift */,
+				DD7BB22A1FFD18C80074F87E /* AvoidKeyboard.swift */,
 				DD1D7B811FF4362300BD134B /* Main.storyboard */,
 				DD1D7B741FF2740C00BD134B /* Managers */,
 				DD5483E01FEFFE63006D0A48 /* Controllers */,
@@ -318,6 +321,7 @@
 				DD1D7B7A1FF2957D00BD134B /* Colors.swift in Sources */,
 				DD126B7A1FEED96A0058EEDE /* AppDelegate.swift in Sources */,
 				DD1D7B801FF4306300BD134B /* TestViewController.swift in Sources */,
+				DD7BB22B1FFD18C80074F87E /* AvoidKeyboard.swift in Sources */,
 				DD1D7B7E1FF3EB9400BD134B /* Native Extensions.swift in Sources */,
 				DD5483DF1FEFF1B9006D0A48 /* SongCell.swift in Sources */,
 				DD1D7B761FF2742700BD134B /* MusicManager.swift in Sources */,

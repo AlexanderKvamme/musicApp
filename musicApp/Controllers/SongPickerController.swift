@@ -54,6 +54,10 @@ class SongPickerController: UIViewController {
         tableView.register(SongCell.self, forCellReuseIdentifier: "SongCell")
         
         inputField.becomeFirstResponder()
+        startAvoidingKeyboard()
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        stopAvoidingKeyboard()
     }
     
     // MARK: - Methods
@@ -80,8 +84,14 @@ class SongPickerController: UIViewController {
             tableView.topAnchor.constraint(equalTo: inputField.bottomAnchor),
             tableView.leftAnchor.constraint(equalTo: view.leftAnchor),
             tableView.rightAnchor.constraint(equalTo: view.rightAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             ])
+        
+        if #available(iOS 11.0, *) {
+            let guide = view.safeAreaLayoutGuide
+            tableView.bottomAnchor.constraint(equalTo: guide.bottomAnchor).isActive = true
+        } else {
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        }
     }
     
     // MARK: - Tap handlers
