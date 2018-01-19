@@ -14,8 +14,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
-//        window?.rootViewController = SongPickerController()
+
+        window = UIWindow(frame: UIScreen.main.bounds)
+        
+        // Set rootViewController
+        let rootView: SongPickerController = SongPickerController()
+        window?.rootViewController = rootView
+        window?.makeKeyAndVisible()
         
         return true
     }

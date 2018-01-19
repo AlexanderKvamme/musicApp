@@ -15,7 +15,6 @@ class MusicManager {
     var currentCollection: MPMediaItemCollection?
     let mediaPlayer: MPMusicPlayerController =  {
         let mediaPlayer = MPMusicPlayerController.systemMusicPlayer
-            //MPMusicPlayerController.systemMusicPlayer
         mediaPlayer.shuffleMode = .off
         mediaPlayer.repeatMode = .none
         return mediaPlayer
@@ -37,12 +36,12 @@ class MusicManager {
     }
     
     func addToQueue(_ item: MPMediaItem) {
-        print("*ADD TO QUEUE*")
         if let playlistCollection = currentCollection {
-            print("CURRENT PLAYLIST BEFORE ADDING")
             playlistCollection.printItems()
+            print("*adding to queue*")
             
             if let _ = mediaPlayer.nowPlayingItem {
+                print(" had playing item" )
                 // If song is playing, add to after that song
                 var newItems: [MPMediaItem] = []
                 newItems.append(contentsOf: playlistCollection.items)
@@ -51,8 +50,19 @@ class MusicManager {
                 let newCollection = MPMediaItemCollection(items: newItems)
                 currentCollection = newCollection
                 mediaPlayer.setQueue(with: newCollection)
-                mediaPlayer.play()
-                print("END")
+                //mediaPlayer.play()
+                
+                
+                // new
+                if mediaPlayer.playbackState == .paused {
+                    //                    mediaPlayer.prepare
+                    print("DID invoke .play()")
+                    mediaPlayer.play()
+                } else {
+                    print("did NOT invoke .play()")
+                    mediaPlayer.play()
+                    mediaPlayer.prepareToPlay()
+                }
             } else {
                 // If no song is playing just play it
                 fatalError("ERROR - had no 'now playing', what happens?")
@@ -65,6 +75,7 @@ class MusicManager {
                 currentCollection = collection
                 mediaPlayer.setQueue(with: collection)
                 mediaPlayer.play()
+                
             } else {
                 // Make completelty new playlist
                 let collection = MPMediaItemCollection(items: [item])

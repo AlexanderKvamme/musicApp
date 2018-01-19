@@ -38,9 +38,20 @@ class SongPickerController: UIViewController {
         return tv
     }()
     
+    // MARK: - Initializers
+    
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
+        print("vdl")
         super.viewDidLoad()
         
         view.backgroundColor = .light
@@ -56,6 +67,11 @@ class SongPickerController: UIViewController {
         inputField.becomeFirstResponder()
         startAvoidingKeyboard()
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        inputField.clearsOnInsertion = true
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         stopAvoidingKeyboard()
     }

@@ -25,6 +25,9 @@ extension UIViewController {
     }
     
     @objc private func _onKeyboardFrameWillChangeNotificationReceived(_ notification: Notification) {
+        
+        // FIXME: - Make work on ios 10
+        
         if #available(iOS 11.0, *) {
             
             guard let userInfo = notification.userInfo,
